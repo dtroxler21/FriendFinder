@@ -168,7 +168,7 @@
                     </form>
                     <br>
                     <div class="text-left">
-                        <button type="submit" class="btn btn-primary btn-md" id="add-btn">
+                        <button type="submit" class="btn btn-primary btn-md" id="submit">
                             <span class="glyphicon glyphicon-check"></span> Find your friend!</button>
                     </div>
                 </div>
@@ -178,31 +178,25 @@
     </div>
     </div>
 
-    <div class="container">
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismess="modal">&times;</button>
-                        Your new friend!
-                        <p>
-                            <center>
-                                <h1 id="matchName">
-                            </center>
-                            </h1>
-                        </p>
-                    </div>
-                    <div class="modal-body">
-                        <center>
-                            <img id="matchPhoto">
-                        </center>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_title">Your New Best Friend</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="matchName"></div>
+                    <img id="matchPhoto" src="" style="width:500px;height:600px;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <footer>
@@ -220,7 +214,7 @@
             event.preventDefault();
             var newFriend = {
                 name: $("#name").val().trim(),
-                photoLink: $("#photo").val().trim(),
+                picture: $("#photo").val().trim(),
                 scores: [
                     $("#1").val(),
                     $("#2").val(),
@@ -238,9 +232,10 @@
             $(".form-control").val("");
 
             $.post("/api/friends", newFriend)
-                .then(function (bestMatch) {
-                    $("#friendName").append(bestMatch.name);
-                    $("#friendPic").attr("src", bestMatch.photo);
+                .then(function (friendMatch) {
+                    $("#matchName").append(friendMatch.name);
+                    $("#matchPhoto").attr("src", friendMatch.picture);
+                    $("#modal").modal('toggle');
                 });
         });
     </script>

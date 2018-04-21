@@ -1,7 +1,8 @@
 var path = require('path');
 var friends = require('../data/friends.js');
+var app = require('express');
 
-module.exports = function (app) {
+module.exports = function (app, newFriend) {
     // Get to display the array of friends as objects
     app.get("/api/friends", function (req, res) {
         res.json(friends);
@@ -47,7 +48,7 @@ module.exports = function (app) {
         var friendMatch = friends[bestMatch];
         console.log(friendMatch);
         res.json(friendMatch);
-        friends.push(friendMatch);
+        friends.push(newUserFriend);
 
     });
 
